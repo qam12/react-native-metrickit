@@ -1,0 +1,31 @@
+[
+  {
+    "platform": "android",
+    "type": "anr",
+    "timestamp": 1719965100000,
+    "reasonCode": 6,
+    "summary": "Process exit: ANR (Input dispatching timed out)",
+    "appVersion": "1.2.0",
+    "osVersion": "14",
+    "callStack": "\"main\" prio=5 tid=1 Blocked\n  at com.example.App.onCreate(App.java:42)",
+    "raw": {
+      "reason": 6,
+      "description": "Input dispatching timed out",
+      "importance": 100,
+      "processName": "com.example",
+      "pss": 204800,
+      "rss": 409600,
+      "status": 0
+    }
+  },
+  {
+    "platform": "android",
+    "type": "native-crash",
+    "timestamp": 1719965101000,
+    "reasonCode": 5,
+    "summary": "Process exit: native crash",
+    "appVersion": "1.2.0",
+    "osVersion": "14",
+    "raw": { "reason": 5, "description": null, "importance": 100, "processName": "com.example" }
+  }
+]

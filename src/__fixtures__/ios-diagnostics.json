@@ -1,0 +1,22 @@
+[
+  {
+    "platform": "ios",
+    "type": "crash",
+    "timestamp": 1719965000000,
+    "reasonCode": 11,
+    "summary": "Crash: Namespace SIGNAL, Code 0xb (exceptionType 11)",
+    "appVersion": "1.2.0",
+    "osVersion": "iPhone OS 17.5.1",
+    "callStack": "{\"callStacks\":[{\"threadAttributed\":true,\"callStackRootFrames\":[{\"binaryName\":\"MetrickitExample\",\"binaryUUID\":\"AABBCCDD-1122-3344-5566-778899AABBCC\",\"offsetIntoBinaryTextSegment\":16384,\"sampleCount\":1,\"address\":4370432,\"subFrames\":[{\"binaryName\":\"MetrickitExample\",\"binaryUUID\":\"AABBCCDD-1122-3344-5566-778899AABBCC\",\"offsetIntoBinaryTextSegment\":4096,\"sampleCount\":1,\"address\":4358144}]}]}],\"callStackPerThread\":false}",
+    "raw": { "diagnosticType": "crash", "terminationReason": "Namespace SIGNAL, Code 0xb" }
+  },
+  {
+    "platform": "ios",
+    "type": "hang",
+    "timestamp": 1719965001000,
+    "summary": "App hang for 3.2 s",
+    "appVersion": "1.2.0",
+    "osVersion": "iPhone OS 17.5.1",
+    "raw": { "diagnosticType": "hang", "hangDuration": "3.2 s" }
+  }
+]

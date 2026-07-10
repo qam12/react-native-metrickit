@@ -1,0 +1,27 @@
+[
+  {
+    "platform": "ios",
+    "timestamp": 1719965000000,
+    "appVersion": "1.2.0",
+    "osVersion": "Version 17.5.1 (Build 21F90)",
+    "cpuTimeMs": 543210.5,
+    "peakMemoryBytes": 268435456,
+    "averageSuspendedMemoryBytes": 52428800,
+    "averageTimeToFirstDrawMs": 820,
+    "cellularDownloadBytes": 10485760,
+    "cellularUploadBytes": 2097152,
+    "wifiDownloadBytes": 52428800,
+    "wifiUploadBytes": 4194304,
+    "backgroundExitCounts": {
+      "normalAppExit": 12,
+      "memoryResourceLimitExit": 3,
+      "appWatchdogExit": 1,
+      "badAccessExit": 0
+    },
+    "foregroundExitCounts": {
+      "normalAppExit": 4,
+      "badAccessExit": 1
+    },
+    "raw": { "cpuMetrics": { "cumulativeCPUTime": "543210 ms" } }
+  }
+]

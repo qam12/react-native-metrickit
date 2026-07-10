@@ -1,14 +1,22 @@
 {
   "name": "react-native-metrickit",
   "version": "0.1.0",
-  "description": "Loggin Tool",
+  "description": "Crash-free React Native diagnostics: iOS MetricKit and Android ApplicationExitInfo as one normalized event stream.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
+  "bin": {
+    "rn-metrickit-symbolicate": "./bin/rn-metrickit-symbolicate.js"
+  },
   "exports": {
     ".": {
       "react-native-metrickit-source": "./src/index.tsx",
       "types": "./lib/typescript/src/index.d.ts",
       "default": "./lib/module/index.js"
+    },
+    "./debug": {
+      "react-native-metrickit-source": "./src/debug/index.tsx",
+      "types": "./lib/typescript/src/debug/index.d.ts",
+      "default": "./lib/module/debug/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -17,9 +25,10 @@
     "lib",
     "android",
     "ios",
-    "cpp",
+    "bin",
     "*.podspec",
     "react-native.config.js",
+    "CHANGELOG.md",
     "!ios/build",
     "!android/build",
     "!android/gradle",
@@ -44,6 +53,12 @@
   },
   "keywords": [
     "react-native",
+    "metrickit",
+    "diagnostics",
+    "crash",
+    "hang",
+    "anr",
+    "applicationexitinfo",
     "ios",
     "android"
   ],
@@ -135,7 +150,7 @@
       "customExportConditions": [
         "require",
         "react-native",
-        "<%- project.sourceCondition -%>"
+        "react-native-metrickit-source"
       ]
     },
     "modulePathIgnorePatterns": [
