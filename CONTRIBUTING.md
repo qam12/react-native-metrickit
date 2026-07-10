@@ -128,8 +128,19 @@ yarn test        # Jest unit tests
 yarn prepare     # bob build — ensures the package still builds
 ```
 
-CI additionally builds the example app for iOS and Android across **both** the New and Old
-architectures.
+CI additionally builds the example app for iOS, Android (across **both** the New and Old
+architectures) and the web.
+
+> [!IMPORTANT]
+> CI installs with `yarn install --immutable`. If you change `bin`, `dependencies`, or
+> `peerDependencies` in `package.json`, you **must** run `yarn install` and commit the updated
+> `yarn.lock` — otherwise every CI job fails during setup with `YN0028`.
+
+> [!NOTE]
+> The library must stay **import-safe on the web**. `react-native-web` does not export
+> `TurboModuleRegistry`, so anything that touches the native module has to be reachable only
+> through `src/NativeMetrickit.ts`, which has a `.web.ts` stub beside it. Never import the
+> TurboModule from a module that a web bundle can reach directly.
 
 ## The crash-free rule
 

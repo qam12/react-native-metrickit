@@ -549,6 +549,9 @@ events and no warnings, the most likely cause is that **consent is off** — not
 - **Android keeps a limited exit history** (~16 records) — a burst of crashes can age records out.
 - **`averageTimeToFirstDrawMs` is a best-effort** histogram average; the exact histogram is in `raw`.
 - **Expo Go is unsupported.**
+- **On the web the package is inert.** It imports safely under `react-native-web` (so a shared
+  RN + web codebase still bundles), but every method is a no-op — the OS diagnostics APIs simply
+  do not exist there.
 
 ## Best practices
 

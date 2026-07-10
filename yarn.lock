@@ -10378,6 +10378,8 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
+  bin:
+    rn-metrickit-symbolicate: ./bin/rn-metrickit-symbolicate.js
   languageName: unknown
   linkType: soft
 

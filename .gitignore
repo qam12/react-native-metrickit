@@ -88,6 +88,9 @@ android/generated
 # React Native Nitro Modules
 nitrogen/
 
+# Built web bundle (example/dist)
+dist/
+
 # Test coverage
 coverage/
 
