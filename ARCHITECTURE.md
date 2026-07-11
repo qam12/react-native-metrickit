@@ -1,6 +1,6 @@
 # Architecture
 
-This document explains how `react-native-metrickit` works internally: the end-to-end flow, the
+This document explains how `react-native-metrickit-sdk` works internally: the end-to-end flow, the
 responsibility of each module, and the design decisions behind them. It is written for
 maintainers and contributors. For consumer-facing usage, see the [README](./README.md).
 
@@ -259,7 +259,7 @@ matters, since exit records are only ever read at launch.
 
 ### D7 — Debug UI behind a separate export
 
-`DiagnosticsDebugView` lives at `react-native-metrickit/debug`, not the root index, so it and its
+`DiagnosticsDebugView` lives at `react-native-metrickit-sdk/debug`, not the root index, so it and its
 RN component imports tree-shake out of production bundles that never reference it.
 
 ### D8 — Symbolication is offline and CLI-only

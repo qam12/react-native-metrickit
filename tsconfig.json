@@ -2,8 +2,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-metrickit": ["./src/index"],
-      "react-native-metrickit/debug": ["./src/debug/index"]
+      "react-native-metrickit-sdk": ["./src/index"],
+      "react-native-metrickit-sdk/debug": ["./src/debug/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

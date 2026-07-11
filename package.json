@@ -1,11 +1,11 @@
 {
-  "name": "react-native-metrickit",
+  "name": "react-native-metrickit-sdk",
   "version": "0.1.0",
   "description": "Crash-free React Native diagnostics: iOS MetricKit and Android ApplicationExitInfo as one normalized event stream.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "bin": {
-    "rn-metrickit-symbolicate": "./bin/rn-metrickit-symbolicate.js"
+    "rn-metrickit-symbolicate": "bin/rn-metrickit-symbolicate.js"
   },
   "exports": {
     ".": {

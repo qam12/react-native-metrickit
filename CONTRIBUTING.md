@@ -86,7 +86,7 @@ cd example/ios && pod install
 ```
 
 Open `example/ios/MetrickitExample.xcworkspace` in Xcode. The library sources appear under
-**Pods → Development Pods → react-native-metrickit**.
+**Pods → Development Pods → Metrickit** (the pod is named after the podspec).
 
 Two things bite people:
 
@@ -108,7 +108,7 @@ xcodebuild -project Pods/Pods.xcodeproj -target Metrickit -sdk iphonesimulator \
 ### Android
 
 Open `example/android` in Android Studio; the library sources appear under
-`react-native-metrickit`. `ApplicationExitInfo` requires **API 30+**, so test on an
+`react-native-metrickit-sdk`. `ApplicationExitInfo` requires **API 30+**, so test on an
 Android 11+ device or emulator — below that the module correctly no-ops.
 
 ### Testing native changes without waiting for the OS

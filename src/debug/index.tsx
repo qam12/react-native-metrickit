@@ -1,5 +1,5 @@
 /**
- * react-native-metrickit/debug
+ * react-native-metrickit-sdk/debug
  * Dev-only debug UI for react-native-metrickit.
  *
  * @author Qamber Haider <qamb565@gmail.com>

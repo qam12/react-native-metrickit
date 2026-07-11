@@ -10345,9 +10345,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-native-metrickit@workspace:.":
+"react-native-metrickit-sdk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "react-native-metrickit@workspace:."
+  resolution: "react-native-metrickit-sdk@workspace:."
   dependencies:
     "@commitlint/config-conventional": "npm:^21.0.2"
     "@eslint/compat": "npm:^2.1.0"
@@ -10379,7 +10379,7 @@ __metadata:
     react: "*"
     react-native: "*"
   bin:
-    rn-metrickit-symbolicate: ./bin/rn-metrickit-symbolicate.js
+    rn-metrickit-symbolicate: bin/rn-metrickit-symbolicate.js
   languageName: unknown
   linkType: soft
 
