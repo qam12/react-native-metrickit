@@ -24,6 +24,9 @@ export default defineConfig([
     },
   },
   {
-    ignores: ['node_modules/', 'lib/'],
+    // `dist/` holds the built web bundle (example/dist); `coverage/` holds jest
+    // output. Neither is source, and linting a 300 kB bundle is slow enough to
+    // look like a hang.
+    ignores: ['node_modules/', 'lib/', '**/dist/', 'coverage/'],
   },
 ]);

@@ -1,0 +1,22 @@
+[
+  null,
+  42,
+  "not-an-object",
+  { "type": "crash", "summary": "missing timestamp" },
+  {
+    "platform": "ios",
+    "type": "crash",
+    "timestamp": "not-a-number",
+    "summary": "bad timestamp",
+    "appVersion": "1",
+    "osVersion": "1"
+  },
+  {
+    "platform": "ios",
+    "type": "totally-unknown-type",
+    "timestamp": 1719965200000,
+    "summary": "valid but unmapped type",
+    "appVersion": "1.0.0",
+    "osVersion": "17.0"
+  }
+]

@@ -1,140 +1,225 @@
 # Contributing
 
-Contributions are always welcome, no matter how large or small!
+Contributions are always welcome, no matter how large or small.
 
-We want this community to be friendly and respectful to each other. Please follow it in all your interactions with the project. Before contributing, please read the [code of conduct](./CODE_OF_CONDUCT.md).
+We want this community to be friendly and respectful to each other. Please read the
+[Code of Conduct](./CODE_OF_CONDUCT.md) before contributing, and follow it in all your
+interactions with the project.
 
-## Development workflow
+Before writing any code, it helps to read **[ARCHITECTURE.md](./ARCHITECTURE.md)** — it explains
+the data flow, the module layout, and the design decisions you'll be working within.
 
-This project is a monorepo managed using [Yarn workspaces](https://yarnpkg.com/features/workspaces). It contains the following packages:
+## Table of contents
 
-- The library package in the root directory.
-- An example app in the `example/` directory.
+- [Branching strategy](#branching-strategy)
+- [Project layout](#project-layout)
+- [Getting started](#getting-started)
+- [Running the example app](#running-the-example-app)
+- [Native development](#native-development)
+- [Verification](#verification)
+- [The crash-free rule](#the-crash-free-rule)
+- [Commit convention](#commit-convention)
+- [Sending a pull request](#sending-a-pull-request)
+- [Releasing](#releasing)
+- [Scripts](#scripts)
 
-To get started with the project, make sure you have the correct version of [Node.js](https://nodejs.org/) installed. See the [`.nvmrc`](./.nvmrc) file for the version used in this project.
+## Branching strategy
 
-Run `yarn` in the root directory to install the required dependencies for each package:
+| Branch | Purpose |
+| --- | --- |
+| `main` | **Production-ready.** Only receives thoroughly tested, stable code, and only through a reviewed merge. |
+| `dev` | **Active development.** All features, fixes, and changes land here first. |
+
+**Open your pull request against `dev`, never `main`.** Work is promoted `dev → main` only when
+it is stable and released.
+
+```sh
+git checkout dev
+git pull
+git checkout -b feat/my-change   # branch off dev
+# …work…
+# open a PR: feat/my-change → dev
+```
+
+## Project layout
+
+A Yarn workspaces monorepo:
+
+- **The library** lives in the root: `src/` (TypeScript), `ios/` (Swift + ObjC++), `android/`
+  (Kotlin), `bin/` (the symbolication CLI).
+- **The example app** lives in `example/` — a runnable bare React Native app that consumes the
+  library by its real package name. It is committed to Git but **never published to npm**.
+
+## Getting started
+
+Use the Node version in [`.nvmrc`](./.nvmrc). Install dependencies from the root:
 
 ```sh
 yarn
 ```
 
-> Since the project relies on Yarn workspaces, you cannot use [`npm`](https://github.com/npm/cli) for development without manually migrating.
+> The project relies on Yarn workspaces; you cannot use `npm` for development without manually
+> migrating.
 
-The [example app](/example/) demonstrates usage of the library. You need to run it to test any changes you make.
+## Running the example app
 
-It is configured to use the local version of the library, so any changes you make to the library's source code will be reflected in the example app. Changes to the library's JavaScript code will be reflected in the example app without a rebuild, but native code changes will require a rebuild of the example app.
-
-If you want to use Android Studio or Xcode to edit the native code, you can open the `example/android` or `example/ios` directories respectively in those editors. To edit the Objective-C or Swift files, open `example/ios/MetrickitExample.xcworkspace` in Xcode and find the source files at `Pods > Development Pods > react-native-metrickit`.
-
-To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-metrickit` under `Android`.
-
-You can use various commands from the root directory to work with the project.
-
-To start the packager:
+The example app is configured to use your local library source. **JavaScript changes hot-reload;
+native changes require a rebuild.**
 
 ```sh
-yarn example start
+yarn example start     # Metro bundler
+yarn example ios       # build + run on iOS
+yarn example android   # build + run on Android
 ```
 
-To run the example app on Android:
+> `yarn start` at the root will fail — the root is a library, not an app. Always go through
+> `yarn example …`.
+
+To confirm the New Architecture is active, look for `"fabric":true` in the Metro logs.
+
+## Native development
+
+### iOS
 
 ```sh
-yarn example android
+cd example/ios && pod install
 ```
 
-To run the example app on iOS:
+Open `example/ios/MetrickitExample.xcworkspace` in Xcode. The library sources appear under
+**Pods → Development Pods → react-native-metrickit**.
+
+Two things bite people:
+
+1. **Adding or removing a Swift file requires re-running `pod install`.** The pod only generates
+   the `Metrickit-Swift.h` interop header once CocoaPods knows it is compiling Swift. If you see
+   `'Metrickit-Swift.h' file not found`, re-run `pod install` and clean the build folder.
+2. **Editing `src/NativeMetrickit.ts` requires regenerating codegen.** `pod install` does this for
+   iOS. Both native modules must then implement every method in the spec — codegen makes them
+   abstract on Android and required by protocol on iOS.
+
+You can compile just the library target without building the whole app:
 
 ```sh
-yarn example ios
+cd example/ios
+xcodebuild -project Pods/Pods.xcodeproj -target Metrickit -sdk iphonesimulator \
+  -configuration Debug build CODE_SIGNING_ALLOWED=NO
 ```
 
-To confirm that the app is running with the new architecture, you can check the Metro logs for a message like this:
+### Android
+
+Open `example/android` in Android Studio; the library sources appear under
+`react-native-metrickit`. `ApplicationExitInfo` requires **API 30+**, so test on an
+Android 11+ device or emulator — below that the module correctly no-ops.
+
+### Testing native changes without waiting for the OS
+
+Real MetricKit / `ApplicationExitInfo` payloads arrive at a later launch (and never on the iOS
+Simulator). Use `simulate()` to exercise the entire JS delivery path immediately, and add a JSON
+fixture under `src/__fixtures__/` to unit-test the normalization.
+
+## Verification
+
+Everything below must pass before you open a pull request:
 
 ```sh
-Running "MetrickitExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
+yarn typecheck   # TypeScript, strict
+yarn lint        # ESLint + Prettier  (yarn lint --fix to autofix)
+yarn test        # Jest unit tests
+yarn prepare     # bob build — ensures the package still builds
 ```
 
-Note the `"fabric":true` and `"concurrentRoot":true` properties.
+CI additionally builds the example app for iOS, Android (across **both** the New and Old
+architectures) and the web.
 
-To run the example app on Web:
+> [!IMPORTANT]
+> CI installs with `yarn install --immutable`. If you change `bin`, `dependencies`, or
+> `peerDependencies` in `package.json`, you **must** run `yarn install` and commit the updated
+> `yarn.lock` — otherwise every CI job fails during setup with `YN0028`.
 
-```sh
-yarn example web
-```
+> [!NOTE]
+> The library must stay **import-safe on the web**. `react-native-web` does not export
+> `TurboModuleRegistry`, so anything that touches the native module has to be reachable only
+> through `src/NativeMetrickit.ts`, which has a `.web.ts` stub beside it. Never import the
+> TurboModule from a module that a web bundle can reach directly.
 
-Make sure your code passes TypeScript:
+## The crash-free rule
 
-```sh
-yarn typecheck
-```
+This is the project's single hardest constraint: **the library must never crash the host app.**
+Concretely, when you touch code:
 
-To check for linting errors, run the following:
+- **Swift** — no force-unwraps (`!`). Use `guard let` / `if let`. Wrap parsing in `SafeExecutor`.
+  Gate OS APIs with `@available`.
+- **Kotlin** — wrap every OS read in `SafeExecutor`. Gate with `Build.VERSION.SDK_INT`. Never let
+  an exception escape into React Native.
+- **Bridge** — always `resolve`, never `reject`. Return `"[]"` on failure.
+- **TypeScript** — route every public method through `safe.ts` so failures return a benign
+  fallback and log.
+- **Parsing** — drop malformed records; never surface a partial object.
 
-```sh
-yarn lint
-```
+If you add a code path that can throw, wrap it. Add a malformed-input test alongside it.
 
-To fix formatting errors, run the following:
+## Commit convention
 
-```sh
-yarn lint --fix
-```
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en) specification. A
+`commit-msg` hook (lefthook + commitlint) enforces it, and a `pre-commit` hook runs ESLint and
+TypeScript.
 
-Remember to add tests for your change if possible. Run the unit tests by:
+- `feat:` a new feature, e.g. add a new exported method
+- `fix:` a bug fix, e.g. fix a crash on Android 11
+- `refactor:` a code change that neither fixes a bug nor adds a feature
+- `docs:` documentation only
+- `test:` adding or updating tests
+- `chore:` tooling, CI, dependencies
 
-```sh
-yarn test
-```
+Scopes are encouraged where useful: `feat(ios): add MXMetricPayload metrics stream`.
 
+## Sending a pull request
 
-### Commit message convention
+> **First pull request?** Learn how from this free series:
+> [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).
 
-We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
+- **Target the `dev` branch.**
+- Prefer small pull requests focused on one change.
+- Verify that linters, types, and tests pass.
+- Add tests for your change where possible — especially a malformed-input test for any new parser.
+- Update the documentation (`README.md`, and `ARCHITECTURE.md` if you changed the internals).
+- Add an entry to the `Unreleased` section of [CHANGELOG.md](./CHANGELOG.md).
+- For changes to the public API or the native implementation, open an issue to discuss first.
 
-- `fix`: bug fixes, e.g. fix crash due to deprecated method.
-- `feat`: new features, e.g. add new method to the module.
-- `refactor`: code refactor, e.g. migrate from class components to hooks.
-- `docs`: changes into documentation, e.g. add usage example for the module.
-- `test`: adding or updating tests, e.g. add integration tests using detox.
-- `chore`: tooling changes, e.g. change CI config.
+## Releasing
 
-Our pre-commit hooks verify that your commit message matches this format when committing.
-
-
-### Publishing to npm
-
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
-
-To publish new versions, run the following:
+Maintainers only. Releases are cut from `main` after `dev` has been merged.
 
 ```sh
 yarn release
 ```
 
+[release-it](https://github.com/release-it/release-it) bumps the version per semver from the
+conventional commits, updates the changelog, creates the tag and GitHub release, and publishes to
+npm. The `prepare` script (`bob build`) runs automatically on publish, so `lib/` is always built
+fresh into the tarball.
 
-### Scripts
+Before releasing, confirm the shipped file set:
 
-The `package.json` file contains various scripts for common tasks:
+```sh
+npm pack --dry-run
+```
 
-- `yarn`: setup project by installing dependencies.
-- `yarn typecheck`: type-check files with TypeScript.
-  - `yarn lint`: lint files with [ESLint](https://eslint.org/).
-    - `yarn test`: run unit tests with [Jest](https://jestjs.io/).
-  - `yarn example start`: start the Metro server for the example app.
-- `yarn example android`: run the example app on Android.
-- `yarn example ios`: run the example app on iOS.
-  - `yarn example web`: run the example app on Web.
-- `yarn example build:web`: build the example app for Web.
-  
-### Sending a pull request
+It must contain `src`, `lib`, `ios`, `android`, `bin`, the podspec, `react-native.config.js`,
+`README.md`, `LICENSE`, and `CHANGELOG.md` — and must **not** contain `example/`, tests, or
+fixtures.
 
-> **Working on your first pull request?** You can learn how from this _free_ series: [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).
+## Scripts
 
-When you're sending a pull request:
-
-- Prefer small pull requests focused on one change.
-- Verify that linters and tests are passing.
-- Review the documentation to make sure it looks good.
-- Follow the pull request template when opening a pull request.
-- For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
+| Script | Description |
+| --- | --- |
+| `yarn` | Install dependencies for every workspace |
+| `yarn typecheck` | Type-check with TypeScript |
+| `yarn lint` | Lint with ESLint (`--fix` to autofix formatting) |
+| `yarn test` | Run unit tests with Jest |
+| `yarn prepare` | Build the library with `react-native-builder-bob` |
+| `yarn clean` | Remove build artifacts |
+| `yarn example start` | Start Metro for the example app |
+| `yarn example ios` | Run the example app on iOS |
+| `yarn example android` | Run the example app on Android |
+| `yarn release` | Publish a new version (maintainers) |

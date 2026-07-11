@@ -7,6 +7,13 @@ export default defineConfig((env) =>
   mergeConfig(config(env), {
     resolve: {
       alias: {
+        // The `./debug` subpath must be aliased before the bare package name:
+        // the bare alias is a prefix match, so it would rewrite
+        // `react-native-metrickit/debug` to `<root>/debug`, which does not exist.
+        [`${pack.name}/debug`]: new URL(
+          '../src/debug/index.tsx',
+          import.meta.url
+        ),
         [pack.name]: new URL('..', import.meta.url),
       },
       conditions: ['react-native-metrickit-source'],
