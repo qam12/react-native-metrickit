@@ -1,12 +1,12 @@
 <div align="center">
 
-# react-native-metrickit
+# react-native-metrickit-sdk
 
 **Crash-free React Native diagnostics.** Surfaces iOS **MetricKit** and Android
 **`ApplicationExitInfo`** as one normalized event stream — and pipes it wherever you want.
 
-[![npm version](https://img.shields.io/npm/v/react-native-metrickit.svg)](https://www.npmjs.com/package/react-native-metrickit)
-[![license](https://img.shields.io/npm/l/react-native-metrickit.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/react-native-metrickit-sdk.svg)](https://www.npmjs.com/package/react-native-metrickit-sdk)
+[![license](https://img.shields.io/npm/l/react-native-metrickit-sdk.svg)](./LICENSE)
 [![CI](https://github.com/qam12/react-native-metrickit/actions/workflows/ci.yml/badge.svg)](https://github.com/qam12/react-native-metrickit/actions/workflows/ci.yml)
 [![platforms](https://img.shields.io/badge/platforms-iOS%2014%2B%20%7C%20Android%2011%2B-blue.svg)](#requirements--supported-platforms)
 
@@ -47,7 +47,7 @@ Both iOS and Android expose first-class, OS-level stability data — why your ap
 was killed for memory, or blew its CPU budget. Neither is reachable from React Native without
 writing native code, and the two APIs look nothing alike.
 
-`react-native-metrickit` collects both, normalizes them into a single `DiagnosticEvent` shape,
+`react-native-metrickit-sdk` collects both, normalizes them into a single `DiagnosticEvent` shape,
 and hands them to your JavaScript. It has **zero runtime dependencies**, **sends nothing over the
 network**, and is engineered so that a failure inside the library can never crash your app.
 
@@ -99,7 +99,7 @@ For the internals — the full data flow, module map, and the rationale behind e
 - 🔒 **Consent gate** — default **off**; nothing is emitted until you opt in
 - 🔔 **Optional local notification** on a non-empty drain (both platforms, default off)
 - 🧪 **`simulate()`** — inject a test event so you don't wait a day to see your UI work
-- 🖥️ **Platform-aware debug view** — tree-shakeable, shipped from `react-native-metrickit/debug`
+- 🖥️ **Platform-aware debug view** — tree-shakeable, shipped from `react-native-metrickit-sdk/debug`
 - 🧰 **Offline symbolication CLI** — `atos` / `ndk-stack` / `retrace`, with dSYM UUID checking
 - 🪶 **Zero runtime dependencies**; `react` / `react-native` are peer deps only
 - 🛡️ **Crash-free** — every failure path degrades to a logged no-op
@@ -120,11 +120,11 @@ Works on **bare React Native (CLI)**. See [Expo](#expo) below.
 ## Installation
 
 ```sh
-npm install react-native-metrickit
+npm install react-native-metrickit-sdk
 ```
 
 ```sh
-yarn add react-native-metrickit
+yarn add react-native-metrickit-sdk
 ```
 
 ## Native setup
@@ -165,7 +165,7 @@ import {
   onAndroidExitInfo,
   setConsent,
   type DiagnosticEvent,
-} from 'react-native-metrickit';
+} from 'react-native-metrickit-sdk';
 
 // Consent defaults to OFF — nothing leaves native until you opt in.
 // Call this only once you have the user's consent: stack traces can contain PII.
@@ -191,8 +191,8 @@ unsubscribe and never fires.
 
 ## API reference
 
-Everything is exported from `react-native-metrickit`, except `DiagnosticsDebugView`, which lives
-at `react-native-metrickit/debug`.
+Everything is exported from `react-native-metrickit-sdk`, except `DiagnosticsDebugView`, which lives
+at `react-native-metrickit-sdk/debug`.
 
 **No method in this library ever throws.** See [Error handling](#error-handling).
 
@@ -418,7 +418,7 @@ A single, platform-detecting debug view, shipped from a separate entry point so 
 out of production bundles:
 
 ```tsx
-import { DiagnosticsDebugView, simulate } from 'react-native-metrickit/debug';
+import { DiagnosticsDebugView, simulate } from 'react-native-metrickit-sdk/debug';
 
 <DiagnosticsDebugView tabs />;
 
@@ -455,7 +455,7 @@ streams:
 | Metrics | `MXMetricPayload` | `onIOSMetrics` |
 
 ```tsx
-import { onIOSMetrics, type MetricSnapshot } from 'react-native-metrickit';
+import { onIOSMetrics, type MetricSnapshot } from 'react-native-metrickit-sdk';
 
 const unsubscribe = onIOSMetrics((snapshots: MetricSnapshot[]) => {
   const latest = snapshots[snapshots.length - 1];
@@ -637,8 +637,8 @@ library with a new diagnostic source, and the testing strategy.
 This project follows [Semantic Versioning](https://semver.org/).
 
 While the package is **pre-1.0**, minor versions may contain breaking changes; patch versions
-never will. The public API surface is everything exported from `react-native-metrickit` and
-`react-native-metrickit/debug`, plus the `rn-metrickit-symbolicate` CLI. Anything under
+never will. The public API surface is everything exported from `react-native-metrickit-sdk` and
+`react-native-metrickit-sdk/debug`, plus the `rn-metrickit-symbolicate` CLI. Anything under
 `src/internal/` is private and may change at any time.
 
 Releases are cut with [release-it](https://github.com/release-it/release-it) and conventional

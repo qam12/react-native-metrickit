@@ -8,8 +8,8 @@ adheres to [Semantic Versioning](https://semver.org/).
 ## Versioning policy
 
 While the package is **pre-1.0**, minor versions may contain breaking changes; patch versions
-never will. The public API surface is everything exported from `react-native-metrickit` and
-`react-native-metrickit/debug`, plus the `rn-metrickit-symbolicate` CLI. Anything under
+never will. The public API surface is everything exported from `react-native-metrickit-sdk` and
+`react-native-metrickit-sdk/debug`, plus the `rn-metrickit-symbolicate` CLI. Anything under
 `src/internal/` is private and may change at any time.
 
 Releases are cut with [release-it](https://github.com/release-it/release-it) from conventional
@@ -34,7 +34,7 @@ commits.
 - Opt-in capped ring buffer: `enableBuffer`, `disableBuffer`, `getBufferedDiagnostics`,
   `clearBuffer`.
 - `DiagnosticsDebugView` and `simulate()`, shipped from a tree-shakeable
-  `react-native-metrickit/debug` entry point. Tabs are platform-aware: iOS shows
+  `react-native-metrickit-sdk/debug` entry point. Tabs are platform-aware: iOS shows
   All / Crashes / Hangs / CPU / Disk / Metrics; Android shows All / Crashes / ANRs.
 - Offline symbolication CLI `rn-metrickit-symbolicate` (`atos` / `ndk-stack` / `retrace`) with
   dSYM UUID validation and clear errors on mismatched artifacts.

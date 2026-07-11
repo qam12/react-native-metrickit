@@ -20,8 +20,8 @@ import { onIOSMetrics } from '../metrics';
 /**
  * Single, platform-detecting debug view. Auto-selects the relevant source from
  * `Platform.OS` (no iOS/Android tab split); optional tabs are by diagnostic
- * type. RN primitives only, dev-only, tree-shaken from `react-native-metrickit`
- * core (imported from `react-native-metrickit/debug`). See ARCHITECTURE.md.
+ * type. RN primitives only, dev-only, tree-shaken from `react-native-metrickit-sdk`
+ * core (imported from `react-native-metrickit-sdk/debug`). See ARCHITECTURE.md.
  */
 
 type TabKey = 'all' | 'crashes' | 'hangs' | 'anrs' | 'cpu' | 'disk' | 'metrics';

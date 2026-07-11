@@ -8,8 +8,8 @@ import {
   simulate,
   type DiagnosticEvent,
   type MetricSnapshot,
-} from 'react-native-metrickit';
-import { DiagnosticsDebugView } from 'react-native-metrickit/debug';
+} from 'react-native-metrickit-sdk';
+import { DiagnosticsDebugView } from 'react-native-metrickit-sdk/debug';
 
 export default function App() {
   const [count, setCount] = useState(0);
