@@ -5,7 +5,7 @@
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "bin": {
-    "rn-metrickit-symbolicate": "./bin/rn-metrickit-symbolicate.js"
+    "rn-metrickit-symbolicate": "bin/rn-metrickit-symbolicate.js"
   },
   "exports": {
     ".": {
