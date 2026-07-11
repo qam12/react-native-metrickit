@@ -4,6 +4,10 @@
 /**
  * Offline symbolication CLI for react-native-metrickit.
  *
+ * @author Qamber Haider <qamb565@gmail.com>
+ * @license MIT
+ * @see https://github.com/qam12/react-native-metrickit
+ *
  * Resolves stack frames in an exported DiagnosticEvent JSON using build
  * artifacts that must never ship to a device:
  *   - iOS:     a matching .dSYM (resolved with `atos`, UUID-checked via `dwarfdump`)

@@ -1,3 +1,12 @@
+//
+//  react-native-metrickit
+//  iOS MetricKit collector.
+//
+//  @author Qamber Haider <qamb565@gmail.com>
+//  @license MIT
+//  @see https://github.com/qam12/react-native-metrickit
+//
+
 import Foundation
 #if canImport(MetricKit)
   import MetricKit

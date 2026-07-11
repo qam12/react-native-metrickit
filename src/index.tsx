@@ -1,3 +1,12 @@
+/**
+ * react-native-metrickit
+ * Crash-free React Native diagnostics (iOS MetricKit + Android ApplicationExitInfo).
+ *
+ * @author Qamber Haider <qamb565@gmail.com>
+ * @license MIT
+ * @see https://github.com/qam12/react-native-metrickit
+ */
+
 export type {
   DiagnosticEvent,
   DiagnosticListener,

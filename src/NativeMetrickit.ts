@@ -1,3 +1,12 @@
+/**
+ * react-native-metrickit
+ * TurboModule spec (codegen).
+ *
+ * @author Qamber Haider <qamb565@gmail.com>
+ * @license MIT
+ * @see https://github.com/qam12/react-native-metrickit
+ */
+
 import { TurboModuleRegistry, type TurboModule } from 'react-native';
 
 /**

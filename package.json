@@ -67,6 +67,9 @@
     "url": "git+https://github.com/qam12/react-native-metrickit.git"
   },
   "author": "Qamber Haider <qamb565@gmail.com> (https://github.com/qam12)",
+  "contributors": [
+    "Qamber Haider <qamb565@gmail.com> (https://github.com/qam12)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/qam12/react-native-metrickit/issues"

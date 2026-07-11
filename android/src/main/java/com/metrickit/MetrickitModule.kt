@@ -1,3 +1,12 @@
+/*
+ * react-native-metrickit
+ * Android ApplicationExitInfo collector.
+ *
+ * @author Qamber Haider <qamb565@gmail.com>
+ * @license MIT
+ * @see https://github.com/qam12/react-native-metrickit
+ */
+
 package com.metrickit
 
 import android.app.ActivityManager

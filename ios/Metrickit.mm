@@ -1,3 +1,12 @@
+/**
+ * react-native-metrickit
+ * iOS TurboModule + RCTEventEmitter bridge.
+ *
+ * @author Qamber Haider <qamb565@gmail.com>
+ * @license MIT
+ * @see https://github.com/qam12/react-native-metrickit
+ */
+
 #import "Metrickit.h"
 
 // Generated Swift interop header (module name == pod name "Metrickit").
